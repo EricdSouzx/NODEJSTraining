@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882">
+	<head>
+	  	<script src="https://unpkg.com/react@17/umd/react.development.js" ></script>
+		<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" ></script>
+		<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	
+<!--[if gte mso 9]><xml>
+<mso:CustomDocumentProperties>
+<mso:xd_Signature msdt:dt="string"></mso:xd_Signature>
+<mso:display_urn_x003a_schemas-microsoft-com_x003a_office_x003a_office_x0023_Editor msdt:dt="string">Vieira Ferreira, Júlio</mso:display_urn_x003a_schemas-microsoft-com_x003a_office_x003a_office_x0023_Editor>
+<mso:Order msdt:dt="string">199600.000000000</mso:Order>
+<mso:xd_ProgID msdt:dt="string"></mso:xd_ProgID>
+<mso:_ExtendedDescription msdt:dt="string"></mso:_ExtendedDescription>
+<mso:display_urn_x003a_schemas-microsoft-com_x003a_office_x003a_office_x0023_Author msdt:dt="string">Vieira Ferreira, Júlio</mso:display_urn_x003a_schemas-microsoft-com_x003a_office_x003a_office_x0023_Author>
+<mso:ComplianceAssetId msdt:dt="string"></mso:ComplianceAssetId>
+<mso:TemplateUrl msdt:dt="string"></mso:TemplateUrl>
+<mso:TriggerFlowInfo msdt:dt="string"></mso:TriggerFlowInfo>
+<mso:ContentTypeId msdt:dt="string">0x01010057F12016986497428A82508984BB350D</mso:ContentTypeId>
+<mso:_SourceUrl msdt:dt="string"></mso:_SourceUrl>
+<mso:_SharedFileIndex msdt:dt="string"></mso:_SharedFileIndex>
+</mso:CustomDocumentProperties>
+</xml><![endif]-->
+<title></title></head>
+	<body ng-app="myApp">
+		<h1>REACT Front-End: </h1>
+        <div id="saida"></div>
+
+		<script type="text/babel">
+			class GetRequest extends React.Component {
+				constructor(props) {
+					super(props);
+
+					this.state = { 
+						resposta: null
+					};
+					this.getBackEnd = this.getBackEnd.bind(this);
+				}
+
+				componentDidMount() {
+
+				}
+				
+				getBackEnd() {
+				    var dados = null
+					axios.get('http://localhost:3000/teste')
+
+						 .then(response => {dados = response.data 
+											this.setState({ resposta : dados, })
+						                   })			
+						 .catch(error => {console.log(error) });
+				}
+				render() {
+					const { resposta } = this.state;
+					return (
+						<div >
+							<h1> GET Request Simples </h1>
+							<button type="button" onClick={this.getBackEnd}> Pegar Dados </button>
+							<br />				
+							<br />
+						    <div>
+							  Retornado: {this.state.resposta}
+						    </div>
+						</div>
+					);
+				}
+			}
+
+			ReactDOM.render(<GetRequest />,document.getElementById('saida'));
+		</script>
+	</body>
+</html>

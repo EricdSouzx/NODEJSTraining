@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ViaCEP</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <form class="formulario" id="cepForm">
+        <p>Envie seu CEP</p>
+        <div class="field">
+            <label for="cep">CEP:</label>
+            <input type="text" id="cep" placeholder="Digite seu CEP" required>
+        </div>
+        <button type="submit">Ver</button>
+    </form>
+
+    <div class="resultado" id="resultado"></div>
+
+    <script>
+        const form = document.getElementById('cepForm');
+        const resultadoDiv = document.getElementById('resultado');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const cep = document.getElementById('cep').value;
+
+            try {
+                const response = await fetch(`/consulta/${cep}`);
+                const data = await response.json();
+
+                if (response.ok) {
+                    resultadoDiv.innerHTML = `
+                        <p>CEP: ${data.data.cep}</p>
+                        <p>Logradouro: ${data.data.logradouro}</p>
+                        <p>Bairro: ${data.data.bairro}</p>
+                        <p>Cidade: ${data.data.localidade}</p>
+                        <p>Estado: ${data.data.uf}</p>
+                    `;
+                } else {
+                    resultadoDiv.innerHTML = `<p>${data.message}</p>`;
+                }
+            } catch (error) {
+                resultadoDiv.innerHTML = `<p>Erro ao consultar o CEP. Tente novamente.</p>`;
+            }
+        });
+    </script>
+</body>
+</html>
